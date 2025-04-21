@@ -1,0 +1,32 @@
+name: Check Version Bump
+
+on:
+  pull_request:
+    paths:
+      - 'package.json'
+
+jobs:
+  version-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # required to access commit history
+
+      - name: Get PR base branch
+        id: pr
+        run: echo "BASE_REF=${{ github.event.pull_request.base.ref }}" >> $GITHUB_OUTPUT
+
+      - name: Check version bump
+        run: |
+          git fetch origin ${{ steps.pr.outputs.BASE_REF }}
+          base_commit=$(git merge-base HEAD origin/${{ steps.pr.outputs.BASE_REF }})
+
+          echo "🔍 Checking for version bump in package.json..."
+          if git diff $base_commit HEAD -- package.json | grep '"version":'; then
+            echo "✅ Version bump detected."
+          else
+            echo "❌ package.json version was NOT updated in this PR."
+            exit 1
+          fi

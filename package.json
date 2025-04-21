@@ -1,6 +1,6 @@
 {
   "name": "lets-donate-backend",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This repo contains api service for project called \"Let's Donate\" - an app which helps you collect money",
   "main": "dist/src/main",
   "scripts": {
@@ -23,6 +23,10 @@
     "url": "https://github.com/michalwarchol/lets-donate-backend/issues"
   },
   "homepage": "https://github.com/michalwarchol/lets-donate-backend#readme",
+  "engines": {
+    "node": "22.9.0",
+    "npm": "11.3.0"
+  },
   "dependencies": {
     "@nestjs/common": "^11.0.11",
     "@nestjs/config": "^4.0.1",
