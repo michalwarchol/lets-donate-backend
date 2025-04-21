@@ -1,6 +1,6 @@
 {
   "name": "lets-donate-backend",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "This repo contains api service for project called \"Let's Donate\" - an app which helps you collect money",
   "main": "dist/src/main",
   "scripts": {
