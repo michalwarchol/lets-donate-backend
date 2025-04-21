@@ -5,9 +5,11 @@
   "main": "dist/src/main",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "docker compose build --no-cache",
-    "start:dev": "cross-env NODE_ENV=dev docker compose up",
-    "start:prod": "cross-env NODE_ENV=production docker compose up --build -d"
+    "build": "nest build",
+    "docker:build": "docker compose build --no-cache",
+    "docker:start": "cross-env NODE_ENV=dev docker compose up",
+    "start:dev": "cross-env NODE_ENV=dev nest start --watch",
+    "start:prod": "cross-env NODE_ENV=prod node ."
   },
   "repository": {
     "type": "git",
