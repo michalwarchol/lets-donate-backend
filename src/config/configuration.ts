@@ -1,4 +1,15 @@
-export default () => ({
+type Configuration = {
+  port: number;
+  database: {
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
+  };
+};
+
+export default (): Configuration => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   database: {
     host: process.env.POSTGRES_HOST,
@@ -6,5 +17,5 @@ export default () => ({
     username: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DB,
-  }
+  },
 });

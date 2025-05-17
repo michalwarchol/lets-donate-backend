@@ -1,21 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from './user.service';
+import { Test, type TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
+
 import { User } from './user.entity';
-import { Repository } from 'typeorm';
+import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
-  let repo: Repository<User>;
 
   const mockUserRepository = {
     create: jest.fn((dto) => dto),
     save: jest.fn((user) => Promise.resolve({ id: 'uuid', ...user })),
     find: jest.fn(() => Promise.resolve([{ id: 'uuid', first_name: 'John' }])),
     findOne: jest.fn(({ where: { id } }) =>
-      id === 'uuid'
-        ? Promise.resolve({ id, first_name: 'John' })
-        : Promise.resolve(null),
+      id === 'uuid' ? Promise.resolve({ id, first_name: 'John' }) : Promise.resolve(null),
     ),
   };
 
@@ -31,7 +28,6 @@ describe('UserService', () => {
     }).compile();
 
     service = module.get<UserService>(UserService);
-    repo = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
   it('should be defined', () => {
