@@ -6,6 +6,7 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 import configuration from './config/configuration';
 import { isDev } from './utils/isDev';
 import { UserModule } from './modules/user/user.module';
+import { User } from './modules/user/user.entity';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { UserModule } from './modules/user/user.module';
         username: config.get('database.username'),
         password: config.get('database.password'),
         database: config.get('database.database'),
-        entities: [],
+        entities: [User],
         autoLoadEntities: true,
         synchronize: isDev,
       }) as PostgresConnectionOptions,
