@@ -11,7 +11,10 @@
     "docker:build": "docker compose build --no-cache",
     "docker:start": "cross-env NODE_ENV=dev docker compose up",
     "start:dev": "cross-env NODE_ENV=dev nest start --watch",
-    "start:prod": "cross-env NODE_ENV=prod node ."
+    "start:prod": "cross-env NODE_ENV=prod node .",
+    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate migrations/NewMigration -d src/data-source.ts",
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d src/data-source.ts",
+    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d src/data-source.ts"
   },
   "repository": {
     "type": "git",
