@@ -11,6 +11,10 @@ services:
       - redis
     env_file:
       - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules # aby node_modules z kontenera nie nadpisywały tych z hosta
+    command: npm run start:dev
     networks:
       - app_network
 
