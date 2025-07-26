@@ -13,8 +13,13 @@ const config: Config = {
     '!**/main.ts',
     '!**/migrations/**',
     '!**/*.module.ts',
-    '!**/config/*'
+    '!**/config/*',
+    '!src/data-source.ts',
+    '!src/**/*.dto.ts',
+    '!src/**/*.entity.ts',
+    '!src/**/constants/**',
   ],
+  coveragePathIgnorePatterns: ['/node_modules/', '\\.dto\\.ts$', '\\.entity\\.ts$'],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
 };
