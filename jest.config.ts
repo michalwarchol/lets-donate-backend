@@ -19,7 +19,12 @@ const config: Config = {
     '!src/**/*.entity.ts',
     '!src/**/constants/**',
   ],
-  coveragePathIgnorePatterns: ['/node_modules/', '\\.dto\\.ts$', '\\.entity\\.ts$'],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '\\.dto\\.ts$',
+    '\\.entity\\.ts$',
+    'src/data-source.ts$',
+  ],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
 };
