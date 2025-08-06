@@ -4,6 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 import configuration from './config/configuration';
+import { AuthModule } from './modules/auth/auth.module';
+import { MailModule } from './modules/mail/mail.module';
+import { TokenModule } from './modules/token/token.module';
 import { User } from './modules/user/user.entity';
 import { UserModule } from './modules/user/user.module';
 import { isDev } from './utils/isDev';
@@ -31,6 +34,9 @@ import { isDev } from './utils/isDev';
         }) as PostgresConnectionOptions,
     }),
     UserModule,
+    AuthModule,
+    MailModule,
+    TokenModule,
   ],
 })
 export class AppModule {}

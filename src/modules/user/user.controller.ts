@@ -1,5 +1,5 @@
-// user.controller.ts
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/decorators/auth.guard';
 
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -13,6 +13,7 @@ export class UserController {
     return this.userService.create(userData);
   }
 
+  @UseGuards(AuthGuard())
   @Get()
   findAll(): Promise<User[]> {
     return this.userService.findAll();

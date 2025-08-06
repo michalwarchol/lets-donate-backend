@@ -5,16 +5,15 @@ services:
     build: .
     container_name: nestjs_app
     ports:
-      - "${APP_PORT}:3000"
+      - '${APP_PORT}:3000'
     depends_on:
       - postgres
-      - redis
     env_file:
       - .env
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules # aby node_modules z kontenera nie nadpisywały tych z hosta
-    command: npm run start:dev
+      - /usr/src/app/node_modules
+    command: nest start --watch
     networks:
       - app_network
 
@@ -23,7 +22,7 @@ services:
     container_name: postgres_db
     restart: always
     ports:
-      - "5432:5432"
+      - '5432:5432'
     env_file:
       - .env
     volumes:
@@ -36,7 +35,7 @@ services:
     container_name: pgadmin
     restart: always
     ports:
-      - "5050:80"
+      - '5050:80'
     env_file:
       - .env
     depends_on:
@@ -44,20 +43,8 @@ services:
     networks:
       - app_network
 
-  redis:
-    image: redis:7
-    container_name: redis_db
-    restart: always
-    ports:
-      - "6379:6379"
-    env_file:
-      - .env
-    networks:
-      - app_network
-
 networks:
   app_network:
-
 
 volumes:
   postgres_data:
