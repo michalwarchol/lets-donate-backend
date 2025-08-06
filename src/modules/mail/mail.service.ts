@@ -30,8 +30,7 @@ export class MailService {
         subject,
         text,
       });
-    } catch (error) {
-      console.error('Mail sendEmail error:', error);
+    } catch {
       throw new InternalServerErrorException('Could not send email');
     }
   }

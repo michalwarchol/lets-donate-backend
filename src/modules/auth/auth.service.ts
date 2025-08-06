@@ -55,8 +55,7 @@ export class AuthService {
     return { access_token: token };
   }
 
-  async logout(userId: string): Promise<{ message: string }> {
-    const token = this.jwtService.sign({ sub: userId });
+  async logout(token: string): Promise<{ message: string }> {
     await this.tokenService.set(token, TokenType.Blacklist, '');
 
     return { message: 'Logged out successfully' };

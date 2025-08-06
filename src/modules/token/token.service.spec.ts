@@ -49,6 +49,14 @@ describe('TokenService', () => {
     expect(result).toBe(true);
   });
 
+  it('should not set token', async () => {
+    mockTokenRepository.save.mockImplementation(() => {
+      throw new Error('error');
+    });
+    const result = await service.set('token', TokenType.Email, 'user-id');
+    expect(result).toBe(false);
+  });
+
   it('should get token value', async () => {
     const result = await service.get('token', TokenType.Email);
     expect(result).toBe('user-id');
@@ -67,5 +75,13 @@ describe('TokenService', () => {
   it('should delete token', async () => {
     const result = await service.delete('token');
     expect(result).toBe(true);
+  });
+
+  it('should not delete token', async () => {
+    mockTokenRepository.delete.mockImplementation(() => {
+      throw new Error('error');
+    });
+    const result = await service.delete('token');
+    expect(result).toBe(false);
   });
 });

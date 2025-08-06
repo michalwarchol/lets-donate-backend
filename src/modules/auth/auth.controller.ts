@@ -20,9 +20,12 @@ export class AuthController {
   }
 
   @Post('logout')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard())
   logout(@Req() req): Promise<{ message: string }> {
-    return this.authService.logout(req.user.id);
+    const authHeader = req.headers['authorization'] || req.headers['Authorization'];
+    const token = authHeader.replace('Bearer ', '').trim();
+
+    return this.authService.logout(token);
   }
 
   @Get('confirm-email')

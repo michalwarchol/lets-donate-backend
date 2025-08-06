@@ -1,23 +1,53 @@
-import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Inject,
+  mixin,
+  Type,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { DataSource } from 'typeorm';
 
-@Injectable()
-export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+import { TokenType } from '../modules/token/token.dto';
+import { Token } from '../modules/token/token.entity';
 
-  canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest();
-    const auth = request.headers['authorization'];
-    if (!auth) throw new UnauthorizedException();
+export const AuthGuard = (): Type<CanActivate> => {
+  class AuthGuardMixin {
+    constructor(
+      private readonly jwtService: JwtService,
+      @Inject(DataSource) private readonly dataSource: DataSource,
+    ) {}
 
-    const token = auth.replace('Bearer ', '');
-    try {
-      const payload = this.jwtService.verify(token);
-      request.user = payload;
+    async canActivate(context: ExecutionContext): Promise<boolean> {
+      const request = context.switchToHttp().getRequest();
+      const auth = request.headers['authorization'];
+      if (!auth) throw new UnauthorizedException();
 
-      return true;
-    } catch {
-      throw new UnauthorizedException();
+      const token = auth.replace('Bearer ', '');
+      try {
+        if (!token) {
+          throw new UnauthorizedException('Missing token');
+        }
+        const blacklisted = await this.dataSource.getRepository(Token).findOne({
+          where: {
+            token,
+            type: TokenType.Blacklist,
+          },
+        });
+
+        if (blacklisted) {
+          throw new UnauthorizedException('Token has been blacklisted');
+        }
+        const payload = this.jwtService.verify(token);
+        request.user = payload;
+
+        return true;
+      } catch {
+        throw new UnauthorizedException();
+      }
     }
   }
-}
+
+  return mixin(AuthGuardMixin);
+};

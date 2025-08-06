@@ -10,7 +10,9 @@ export class RegisterDto {
   @IsEmail()
   email: string;
 
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d]).{10,}$/)
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d]).{10,}$/, {
+    message: "Password doesn't match criteria",
+  })
   password: string;
 
   @IsNotEmpty()
@@ -34,6 +36,8 @@ export class ResetPasswordDto {
   @IsNotEmpty()
   token: string;
 
-  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d]).{10,}$/)
+  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d]).{10,}$/, {
+    message: "Password doesn't match criteria",
+  })
   newPassword: string;
 }
